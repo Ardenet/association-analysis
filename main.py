@@ -589,7 +589,10 @@ def main(pattern, log_dir, config, num_log, limit):
     # ignoreFileList = ["main.py","funcTest.py", "graphView", "test.json", pattern, "log"]
     ignoreFileList = [".gitignore"]
     cleanDir("./event", ignoreFileList, toTrash=False)
-    os.unlink("report.txt")
+    try:
+        os.unlink("report.txt")
+    except FileNotFoundError:
+        pass
     # os.mkdir("event") 
     
     

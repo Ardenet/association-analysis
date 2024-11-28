@@ -61,4 +61,8 @@ venv.bak/
 *.html
 test.json
 funcTest.py
-!requirements.txt
+!*requirements.txt
+
+# custom
+wkhtmltox/
+Graphviz*/

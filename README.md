@@ -4,7 +4,8 @@
 
 将多种日志以统一的json格式组织，该模型将分析所有日志，根据关联规则归并日志，生成日志图，划分出不同的事件，并利用社交网络发现等手段，对日志进行挖掘聚类，从而去除日志冗余信息，减小日志规模，并能够对感兴趣的事件中的有源事件（例如ppid->pid）进行回溯分析，对序列性事件进行排序梳理，有效提升了管理员的分析效率。
 
-### 1.使用方法：
+### 1.使用方法
+
 运行环境：**python3.7**
 
 运行命令：**python main.py**
@@ -20,14 +21,33 @@
 --num_log：生成模拟日志条目的数量，默认为2000
 ```
 
-所有依赖：
+**所有依赖：**
+
+pip 安装依赖
+
+```powershell
+pip install -r pip_requirements.txt
+```
+
+为了生成pdf格式的报告，需额外安装 [wkhtmltox](https://wkhtmltopdf.org/downloads.html)，并将安装路径添加到环境变量PATH (下载 **7Z Archive** 版就行, 解压后放在项目目录中, 用以下powershell命令在运行时修改环境变量)
+
+```powershell
+$ENV:PATH = (Resolve-Path .\wkhtmltox\bin).Path + ";" + $ENV:PATH
+```
+
+此外, 还需要额外安装 [Graphviz](https://graphviz.org/download/#windows) (不知道有什么用, 代码中间会用, 同样解压后修改环境变量)
+
+```powershell
+$ENV:PATH = (Resolve-Path .\Graphviz\bin).Path + ";" + $ENV:PATH
+```
+
+最后 conda 环境可以使用一下命令安装依赖(源仓库就是这么写的, 但好像跑不起来,但本着不干涉他人命运的原则保留原有依赖内容, **但很可能会遭遇不幸!!!!!**)
 
 ```
-conda install --yes --file requirements.txt
-为了生成pdf格式的报告，需额外安装wkhtmltox，并将安装路径添加到环境变量PATH
+conda install --yes --file conda(origin)_requirements.txt
 ```
 
-### 2. 日志格式：
+### 2. 日志格式
 
   (1)日志文件名称：独一无二的名字，避免和其他日志文件名称重复，推荐：字符串+uuid4+".json"，比如panda_00b8ff3f-fcf4-4c6a-a625-12b77d6a31ef.json
 
@@ -77,7 +97,7 @@ conda install --yes --file requirements.txt
 ]
 ```
 
-### 3.关联规则：
+### 3.关联规则
 
   (1)每个字段的含义需要描述清楚。
 
@@ -151,9 +171,6 @@ string: NULL 代表为空字符串    int: NULL 代表0     long: NULL 代表0  
 - 关联关系中，pair类型的要用P开头表示，用英文括号()包裹，并用**-**分隔，如果是指向性的pair，源要放在前面，也可添加多个交叉，例如P(ppid-pid)(a-b-pid)
 - 注意不要添加已使用的字段名称，避免名称重复。含义一致的字段使用相同的名称，不要额外另起名字。
 
- 
-
 ### 4.关于时间字段
 
   时间统一格式，从UTC1970-1-1 0:0:0开始计时到当前时间的秒数。qemu在加载虚拟机的时候可以指定虚拟机的内的时间  -rtc base=2009-01-01T16:00:21 所以虚拟机内的绝对时间是没有意义的，所以日志里面的时间戳只能用来标识日志的之间相对时间，但由于秒的精度不够，会有多条日志的时间戳相等的情况出现。
-
