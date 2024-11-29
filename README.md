@@ -41,6 +41,21 @@ $ENV:PATH = (Resolve-Path .\wkhtmltox\bin).Path + ";" + $ENV:PATH
 $ENV:PATH = (Resolve-Path .\Graphviz\bin).Path + ";" + $ENV:PATH
 ```
 
+结合**uv**写入powershell脚本
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+$ENV:PATH = (Resolve-Path .\wkhtmltox\bin).Path + ";" + $ENV:PATH
+$ENV:PATH = (Resolve-Path .\Graphviz\bin).Path + ";" + $ENV:PATH
+python main.py
+```
+
+注意到uv默认不安装setuptools
+
+```powershell
+uv pip install setuptools
+```
+
 最后 conda 环境可以使用一下命令安装依赖(源仓库就是这么写的, 但好像跑不起来,但本着不干涉他人命运的原则保留原有依赖内容, **但很可能会遭遇不幸!!!!!**)
 
 ```
