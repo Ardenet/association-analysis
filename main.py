@@ -543,8 +543,10 @@ def parserTxtToHtml():
 
 def parserHtmlToPdf():
     # confg = pdfkit.configuration(wkhtmltopdf="D:\\wkhtmltox\\bin\\wkhtmltopdf.exe")
-    pdfkit.from_file("report.html", 'report.pdf')
-    
+    options = {
+        "enable-local-file-access": None,
+    }
+    pdfkit.from_file("report.html", 'report.pdf', options=options)
 
 class Logger(object):
     def __init__(self, filename="report.txt"):

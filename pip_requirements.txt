@@ -14,6 +14,7 @@ python-dateutil==2.9.0.post0
 python-igraph==0.8.0
 python-louvain==0.11
 pytz==2024.2
+setuptools
 scipy==1.1.0
 Send2Trash==1.5.0
 six==1.16.0
